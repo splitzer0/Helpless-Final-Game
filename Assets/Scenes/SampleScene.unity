@@ -603,5 +603,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MouseVector: {x: 0, y: 0}
   PlayerBody: {fileID: 336520292}
-  mouseSensitivity: 1
+  mouseSensitivity: 20
   XRot: 0
