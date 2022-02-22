@@ -9,6 +9,8 @@ public class playerControl : MonoBehaviour
     public Vector2 RawMovementVectors;
 
     public float movementSpeed;
+
+    public bool canInteract;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +26,19 @@ public class playerControl : MonoBehaviour
         } else
         {
             
+        }
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 5f)){
+            if (hit.transform.gameObject.CompareTag("interactable"))
+            {
+                Debug.Log(hit.transform.name);
+                canInteract = true;
+            }
+            else
+            {
+                canInteract = false;
+            }
         }
     }
 
@@ -43,6 +58,20 @@ public class playerControl : MonoBehaviour
         } else
         {
             MovingCheck = false;
+        }
+    }
+
+    public void interact(InputAction.CallbackContext context)
+    {
+        if (canInteract)
+        {
+            RaycastHit hit;
+            if(Physics.Raycast(transform.position, transform.forward, out hit, 5f)){
+                if(hit.transform.gameObject.GetComponent<endDoorScript>() != null)
+                {
+                    hit.transform.gameObject.GetComponent<endDoorScript>().EndingDoor();
+                }
+            }
         }
     }
 }
