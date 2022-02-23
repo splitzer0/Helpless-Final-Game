@@ -14,6 +14,7 @@ public class killerAI : MonoBehaviour
     public float angle;
 
     public bool canSeePlayer;
+    public bool canHearPlayer;
 
     public bool wanderPosSet;
     public Vector3 wandertarget;
@@ -44,11 +45,11 @@ public class killerAI : MonoBehaviour
     public void AIChecks()
     {
         SearchRadius();
-        if (canSeePlayer)
+        if (canSeePlayer || canHearPlayer)
         {
             chase();
         }
-        if (!canSeePlayer)
+        if (!canSeePlayer && !canHearPlayer)
         {
             wander();
         }
@@ -63,7 +64,7 @@ public class killerAI : MonoBehaviour
             Transform target = rangeChecks[0].transform;
             Vector3 directionToTarget = (target.position - transform.position).normalized;
 
-            if (Vector3.Angle(transform.position, directionToTarget) < angle / 2)
+            if (Vector3.Angle(transform.forward, directionToTarget) < angle / 2)
             {
                 float distanceToTarget = Vector3.Distance(transform.position, target.position);
 
@@ -80,7 +81,8 @@ public class killerAI : MonoBehaviour
             {
                 canSeePlayer = false;
             }
-        } else if (canSeePlayer)
+        }
+        else if (canSeePlayer)
         {
             canSeePlayer = false;
         }

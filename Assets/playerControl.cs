@@ -11,6 +11,8 @@ public class playerControl : MonoBehaviour
     public float movementSpeed;
 
     public bool canInteract;
+
+    public Transform AudioEmitter;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +22,18 @@ public class playerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        Debug.Log(rb.velocity.magnitude);
+
+        if (rb.velocity.magnitude > 0.1)
+        {
+            AudioEmitter.localScale = new Vector3(15, 15, 15);
+        }
+        else if (rb.velocity.magnitude < 0.1)
+        {
+            AudioEmitter.localScale = Vector3.zero;
+        }
+
         if (MovingCheck)
         {
             MoveFunction();
@@ -42,11 +56,28 @@ public class playerControl : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            other.gameObject.GetComponent<killerAI>().canHearPlayer = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            other.gameObject.GetComponent<killerAI>().canHearPlayer = false;
+        }
+    }
+
     public void MoveFunction()
     {
         float forwardForce = RawMovementVectors.y * movementSpeed;
         float rightForce = RawMovementVectors.x * movementSpeed;
         rb.AddForce(transform.forward * forwardForce + transform.right * rightForce);
+
     }
 
     public void PlayerMove(InputAction.CallbackContext context)
