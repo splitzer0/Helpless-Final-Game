@@ -143,7 +143,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &275828184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,6 +368,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: b287ead8-f367-445f-a36d-bae29829c705
     m_ActionName: Player/Interact[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 336520294}
+        m_TargetAssemblyTypeName: playerControl, Assembly-CSharp
+        m_MethodName: sprint
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 0f373ed8-3add-4474-a60c-2bc921244f55
+    m_ActionName: Player/Sprint[/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 336520294}
+        m_TargetAssemblyTypeName: playerControl, Assembly-CSharp
+        m_MethodName: sneak
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: dbbbc5d7-0ac3-4e4a-afc8-e6b4a39d1acd
+    m_ActionName: Player/Sneaking[/Keyboard/ctrl]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -482,7 +514,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovingCheck: 0
   RawMovementVectors: {x: 0, y: 0}
-  movementSpeed: 3000
+  isSneaking: 0
+  isSprinting: 0
+  sneakSpeed: 400
+  walkingSpeed: 1000
+  runningSpeed: 2000
+  movementSpeed: 0
   canInteract: 0
   AudioEmitter: {fileID: 1585742152}
 --- !u!1 &705507993
