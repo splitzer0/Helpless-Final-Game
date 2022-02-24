@@ -15,6 +15,7 @@ public class killerAI : MonoBehaviour
 
     public bool canSeePlayer;
     public bool canHearPlayer;
+    public bool canSeeLight;
 
     public bool wanderPosSet;
     public Vector3 wandertarget;
@@ -45,11 +46,11 @@ public class killerAI : MonoBehaviour
     public void AIChecks()
     {
         SearchRadius();
-        if (canSeePlayer || canHearPlayer)
+        if (canSeePlayer || canHearPlayer || canSeeLight)
         {
             chase();
         }
-        if (!canSeePlayer && !canHearPlayer)
+        if (!canSeePlayer && !canHearPlayer && !canSeeLight)
         {
             wander();
         }
