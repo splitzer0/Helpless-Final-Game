@@ -19,6 +19,19 @@ public class playerCameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.instance.InventoryOpen)
+        {
+            return;
+        }
+        else
+        {
+            CalculateAndApplyRotation();
+        }
+
+    }
+
+    public void CalculateAndApplyRotation()
+    {
         //limits mouse speed
 
         MouseVector = Vector2.ClampMagnitude(MouseVector, 1);

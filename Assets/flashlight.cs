@@ -17,22 +17,13 @@ public class flashlight : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(SearchTimer());
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-    }
-
-    private IEnumerator SearchTimer()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(0.5f);
-            searchForEnemy();
-        }
+        searchForEnemy();
     }
 
     public void searchForEnemy()

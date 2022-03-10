@@ -44,6 +44,22 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Flashlight",
+                    "type": "Button",
+                    "id": "14f8a69f-55ac-461e-8060-0929fcd16505",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Inventory",
+                    "type": "Button",
+                    "id": "a5e8479b-46c7-4b88-b54f-32a3a69c5733",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -52,7 +68,7 @@
                     "id": "9db199a7-517d-4b9d-bd24-a8271e74060a",
                     "path": "<Mouse>/delta",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "StickDeadzone",
                     "groups": "Mouse & Keyboard",
                     "action": "CameraControl",
                     "isComposite": false,
@@ -129,7 +145,7 @@
                     "id": "fe60bd05-e13b-4124-9e5b-22d7af83870a",
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "StickDeadzone",
                     "groups": "Gamepad",
                     "action": "Move",
                     "isComposite": false,
@@ -170,12 +186,56 @@
                 },
                 {
                     "name": "",
+                    "id": "642fb95c-3bfb-4911-9208-c8d8d12e46cb",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "4ece6ec9-7004-484c-a939-728520df1ff0",
                     "path": "<Keyboard>/ctrl",
                     "interactions": "",
                     "processors": "",
                     "groups": "Mouse & Keyboard",
                     "action": "Sneaking",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2e91059d-3159-4282-97fb-9c994a980a9a",
+                    "path": "<Gamepad>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Sneaking",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "92dd7e24-420b-486f-ab2b-3509c54b85df",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mouse & Keyboard",
+                    "action": "Flashlight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4c4293a6-5bcf-4b79-87a3-e6e3fe30f5ee",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mouse & Keyboard",
+                    "action": "Inventory",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

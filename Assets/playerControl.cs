@@ -20,6 +20,8 @@ public class playerControl : MonoBehaviour
     public bool canInteract;
 
     public Transform AudioEmitter;
+
+    public bool FlashLightOn;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,39 +31,52 @@ public class playerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        //Debug.Log(rb.velocity.magnitude);
-
-        if (rb.velocity.magnitude > 0.1)
-        {
-            if (isSprinting)
-            {
-                AudioEmitter.localScale = new Vector3(30, 30, 30);
-            }
-            else if(isSneaking && !isSprinting){
-                AudioEmitter.localScale = new Vector3(5, 5, 5);
-            }
-            else if(!isSneaking && !isSprinting)
-            {
-                AudioEmitter.localScale = new Vector3(15, 15, 15);
-            }
-        }
-        else if (rb.velocity.magnitude < 0.1)
-        {
-            AudioEmitter.localScale = Vector3.zero;
-        }
-
-        if (MovingCheck)
-        {
-            MoveFunction();
-        } else
+        if (GameManager.instance.InventoryOpen)
         {
             return;
         }
+        else
+        {
+            //Debug.Log(rb.velocity.magnitude);
 
+            CheckIfInteractable();
+
+            AdjustAudioEmitterSize();
+
+            MoveFunction();
+        }
+    }
+
+    public void ToggleFlashLight()
+    {
+        if (GameManager.instance.InventoryOpen)
+        {
+            return;
+        }
+        else
+        {
+            if (GameManager.instance.flashlightPickedUp)
+            {
+                GameManager.instance.FlashLight.SetActive(FlashLightOn);
+                if (!FlashLightOn)
+                {
+                    GameManager.instance.Enemy.GetComponent<killerAI>().canSeeLight = false;
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
+    }
+
+    //Interactable Check
+    public void CheckIfInteractable()
+    {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 5f)){
-            if (hit.transform.gameObject.CompareTag("interactable"))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 5f))
+        {
+            if (hit.transform.gameObject.GetComponent<InteractableItem>() != null)
             {
                 Debug.Log(hit.transform.name);
                 canInteract = true;
@@ -73,25 +88,67 @@ public class playerControl : MonoBehaviour
         }
     }
 
+
+    //Audio Emitter Scaler
+    public void AdjustAudioEmitterSize()
+    {
+        if (rb.velocity.magnitude > 0.1)
+        {
+            if (isSprinting)
+            {
+                AudioEmitter.localScale = new Vector3(30, 30, 30);
+            }
+            else if (isSneaking && !isSprinting)
+            {
+                AudioEmitter.localScale = new Vector3(5, 5, 5);
+            }
+            else if (!isSneaking && !isSprinting)
+            {
+                AudioEmitter.localScale = new Vector3(15, 15, 15);
+            }
+        }
+        else if (rb.velocity.magnitude < 0.1)
+        {
+            AudioEmitter.localScale = Vector3.zero;
+        }
+    }
+
+    //Player Movement
+
     public void MoveFunction()
     {
-        if (isSprinting)
+        if (MovingCheck)
         {
-            movementSpeed = runningSpeed;
+            if (isSprinting)
+            {
+                movementSpeed = runningSpeed;
+            }
+            if (isSneaking)
+            {
+                movementSpeed = sneakSpeed;
+            }
+            if (!isSprinting && !isSneaking)
+            {
+                movementSpeed = walkingSpeed;
+            }
         }
-        if (isSneaking)
+        else
         {
-            movementSpeed = sneakSpeed;
+            return;
         }
-        if (!isSprinting && !isSneaking)
-        {
-            movementSpeed = walkingSpeed;
-        }
+        
 
         float forwardForce = RawMovementVectors.y * movementSpeed;
         float rightForce = RawMovementVectors.x * movementSpeed;
         rb.AddForce(transform.forward * forwardForce + transform.right * rightForce);
 
+    }
+
+    //Inventory
+    
+    public void ToggleInventoryUI(InputAction.CallbackContext context)
+    {
+        GameManager.instance.ToggleInventory();
     }
 
     //Controller Stuff
@@ -107,20 +164,26 @@ public class playerControl : MonoBehaviour
         }
     }
 
+    //on Interact button Pressed
     public void interact(InputAction.CallbackContext context)
     {
-        if (canInteract)
+        if (!GameManager.instance.InventoryOpen)
         {
-            RaycastHit hit;
-            if(Physics.Raycast(transform.position, transform.forward, out hit, 5f)){
-                if(hit.transform.gameObject.GetComponent<endDoorScript>() != null)
+            if (canInteract)
+            {
+                RaycastHit hit;
+                if (Physics.Raycast(transform.position, transform.forward, out hit, 5f))
                 {
-                    hit.transform.gameObject.GetComponent<endDoorScript>().EndingDoor();
+                    if (hit.transform.gameObject.GetComponent<InteractableItem>() != null)
+                    {
+                        hit.transform.gameObject.GetComponent<InteractableItem>().Interact();
+                    }
                 }
             }
         }
     }
 
+    //On Sprint Pressed
     public void sprint(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -133,6 +196,7 @@ public class playerControl : MonoBehaviour
         }
     }
 
+    //On Sneak Button Pressed
     public void sneak(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -143,6 +207,21 @@ public class playerControl : MonoBehaviour
         {
             isSneaking = false;
         }
+    }
+
+    //Flashlight button Pressed
+    public void flashlightButton(InputAction.CallbackContext context)
+    {
+        if (!FlashLightOn)
+        {
+            FlashLightOn = true;
+        }
+        else if (FlashLightOn)
+        {
+            FlashLightOn = false;
+        }
+
+        ToggleFlashLight();
     }
 
     //Triggers
